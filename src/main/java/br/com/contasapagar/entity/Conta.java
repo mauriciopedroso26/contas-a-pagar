@@ -43,13 +43,13 @@ public class Conta {
     @Column(name = "DATA_PAGAMENTO", nullable = false)
     private LocalDate dataPagamento;
 
-    @Column(name = "VALOR_CORRIGIDO")
+    @Column(name = "VALOR_CORRIGIDO", nullable = false)
     private Double valorCorrigido;
 
-    @Column(name = "QUANTIDADE_DIAS_ATRASO")
+    @Column(name = "QUANTIDADE_DIAS_ATRASO", nullable = false)
     private long quantidadeDiasAtraso;
 
     @Convert(converter = TipoRegraCalculoEnumConverter.class)
-    @Column(name = "TIPO_REGRA_CALCULO")
+    @Column(name = "TIPO_REGRA_CALCULO", nullable = false)
     private TipoRegraCalculoEnum tipoRegraCalculo;
 }

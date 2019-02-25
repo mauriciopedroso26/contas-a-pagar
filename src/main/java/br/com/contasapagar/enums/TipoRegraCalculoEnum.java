@@ -38,10 +38,7 @@ public enum TipoRegraCalculoEnum {
     }
 
     public static TipoRegraCalculoEnum getValue(String name) {
-        return Stream.of(values()).filter((e) -> {
-            return e.name().equals(name);
-        }).findFirst().orElseThrow(() -> {
-            return new IllegalArgumentException("Nome não existe no TipoRegraCalculoEnum: nome=" + name);
-        });
+        return Stream.of(values()).filter(e -> name.equals(e.name())).findFirst().orElseThrow(() ->
+                new IllegalArgumentException("Nome não existe no TipoRegraCalculoEnum: nome=" + name));
     }
 }
