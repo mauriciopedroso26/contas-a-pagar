@@ -6,6 +6,8 @@ import br.com.contasapagar.repository.ContaRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.text.DecimalFormat;
+import java.text.DecimalFormatSymbols;
 import java.time.temporal.ChronoUnit;
 import java.util.List;
 
@@ -26,7 +28,7 @@ public class ContaService {
             conta.setValorCorrigido(conta.getValorOriginal() * TipoRegraCalculoEnum.ATE_3_DIAS.getMulta());
 
             for (int i = 1; i <= diasEmAtraso; i++) {
-                conta.setValorCorrigido(conta.getValorCorrigido() * TipoRegraCalculoEnum.ATE_3_DIAS.getJurosDia());
+                conta.setValorCorrigido(Double.parseDouble(numberFormat(conta.getValorCorrigido() * TipoRegraCalculoEnum.ATE_3_DIAS.getJurosDia())));
             }
 
             conta.setQuantidadeDiasAtraso(diasEmAtraso);
@@ -35,7 +37,7 @@ public class ContaService {
             conta.setValorCorrigido(conta.getValorOriginal() * TipoRegraCalculoEnum.SUPERIOR_A_3_DIAS.getMulta());
 
             for (int i = 1; i <= diasEmAtraso; i++) {
-                conta.setValorCorrigido(conta.getValorCorrigido() * TipoRegraCalculoEnum.SUPERIOR_A_3_DIAS.getJurosDia());
+                conta.setValorCorrigido(Double.parseDouble(numberFormat(conta.getValorCorrigido() * TipoRegraCalculoEnum.SUPERIOR_A_3_DIAS.getJurosDia())));
             }
 
             conta.setQuantidadeDiasAtraso(diasEmAtraso);
@@ -44,7 +46,7 @@ public class ContaService {
             conta.setValorCorrigido(conta.getValorOriginal() * TipoRegraCalculoEnum.SUPERIOR_A_5_DIAS.getMulta());
 
             for (int i = 1; i <= diasEmAtraso; i++) {
-                conta.setValorCorrigido(conta.getValorCorrigido() * TipoRegraCalculoEnum.SUPERIOR_A_5_DIAS.getJurosDia());
+                conta.setValorCorrigido(Double.parseDouble(numberFormat(conta.getValorCorrigido() * TipoRegraCalculoEnum.SUPERIOR_A_5_DIAS.getJurosDia())));
             }
 
             conta.setQuantidadeDiasAtraso(diasEmAtraso);
@@ -64,5 +66,12 @@ public class ContaService {
 
     private long verificaSeEstaEmAtraso(Conta conta) {
         return conta.getDataVencimento().until(conta.getDataPagamento(), ChronoUnit.DAYS);
+    }
+
+    private String numberFormat(double valor) {
+        DecimalFormatSymbols dfs = new DecimalFormatSymbols();
+        dfs.setDecimalSeparator('.');
+        DecimalFormat df = new DecimalFormat("0.00", dfs);
+        return df.format(valor);
     }
 }
