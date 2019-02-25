@@ -9,11 +9,6 @@ import java.time.LocalDate;
 public class ContaCreator {
 
     public Conta contaCreate() {
-        return Conta.builder()
-                .nome("Teste")
-                .valorOriginal(100.0)
-                .dataVencimento(LocalDate.now())
-                .dataPagamento(LocalDate.now())
-                .build();
+        return new Conta("Teste", 100.0, LocalDate.now(), LocalDate.now());
     }
 }

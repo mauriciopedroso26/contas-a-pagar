@@ -1,12 +1,8 @@
 package br.com.contasapagar.domain.out;
 
-import lombok.Getter;
-import lombok.Setter;
 
 import java.time.LocalDate;
 
-@Getter
-@Setter
 public class ContaDomainOut {
 
     private String nome;
@@ -14,4 +10,44 @@ public class ContaDomainOut {
     private Double valorCorrigido;
     private long quantidadeDiasAtraso;
     private LocalDate dataPagamento;
+
+    public String getNome() {
+        return nome;
+    }
+
+    public void setNome(String nome) {
+        this.nome = nome;
+    }
+
+    public Double getValorOriginal() {
+        return valorOriginal;
+    }
+
+    public void setValorOriginal(Double valorOriginal) {
+        this.valorOriginal = valorOriginal;
+    }
+
+    public Double getValorCorrigido() {
+        return valorCorrigido;
+    }
+
+    public void setValorCorrigido(Double valorCorrigido) {
+        this.valorCorrigido = valorCorrigido;
+    }
+
+    public long getQuantidadeDiasAtraso() {
+        return quantidadeDiasAtraso;
+    }
+
+    public void setQuantidadeDiasAtraso(long quantidadeDiasAtraso) {
+        this.quantidadeDiasAtraso = quantidadeDiasAtraso;
+    }
+
+    public LocalDate getDataPagamento() {
+        return dataPagamento;
+    }
+
+    public void setDataPagamento(LocalDate dataPagamento) {
+        this.dataPagamento = dataPagamento;
+    }
 }

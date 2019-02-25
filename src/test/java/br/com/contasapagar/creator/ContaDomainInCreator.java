@@ -1,7 +1,6 @@
 package br.com.contasapagar.creator;
 
 import br.com.contasapagar.domain.in.ContaDomainIn;
-import br.com.contasapagar.entity.Conta;
 import org.springframework.stereotype.Component;
 
 import java.time.LocalDate;
@@ -10,38 +9,21 @@ import java.time.LocalDate;
 public class ContaDomainInCreator {
 
     public ContaDomainIn contaDomainInCreate() {
-        return ContaDomainIn.builder()
-                .nome("Teste")
-                .valorOriginal(100.0)
-                .dataVencimento(LocalDate.now())
-                .dataPagamento(LocalDate.now())
-                .build();
+        return new ContaDomainIn("Teste", 100.0, LocalDate.now(), LocalDate.now());
     }
 
     public ContaDomainIn contaDomainInCreateAte3DiasDeAtraso() {
-        return ContaDomainIn.builder()
-                .nome("Teste")
-                .valorOriginal(100.0)
-                .dataVencimento(LocalDate.parse("2019-02-24"))
-                .dataPagamento(LocalDate.parse("2019-02-27"))
-                .build();
+        return new ContaDomainIn("Teste", 100.0, LocalDate.parse("2019-02-24"),
+                LocalDate.parse("2019-02-27"));
     }
 
     public ContaDomainIn contaDomainInCreateSuperiorA3DiasDeAtraso() {
-        return ContaDomainIn.builder()
-                .nome("Teste")
-                .valorOriginal(100.0)
-                .dataVencimento(LocalDate.parse("2019-02-24"))
-                .dataPagamento(LocalDate.parse("2019-03-01"))
-                .build();
+        return new ContaDomainIn("Teste", 100.0, LocalDate.parse("2019-02-24"),
+                LocalDate.parse("2019-03-01"));
     }
 
     public ContaDomainIn contaDomainInCreateSuperiorA5DiasDeAtraso() {
-        return ContaDomainIn.builder()
-                .nome("Teste")
-                .valorOriginal(100.0)
-                .dataVencimento(LocalDate.parse("2019-02-24"))
-                .dataPagamento(LocalDate.parse("2019-03-02"))
-                .build();
+        return new ContaDomainIn("Teste", 100.0, LocalDate.parse("2019-02-24"),
+                LocalDate.parse("2019-03-02"));
     }
 }
