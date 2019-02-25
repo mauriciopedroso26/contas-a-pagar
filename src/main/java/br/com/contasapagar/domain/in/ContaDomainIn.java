@@ -1,7 +1,6 @@
 package br.com.contasapagar.domain.in;
 
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
@@ -9,6 +8,9 @@ import java.time.LocalDate;
 
 @Getter
 @Setter
+@NoArgsConstructor
+@AllArgsConstructor
+@Builder
 public class ContaDomainIn {
 
     @NotBlank(message = "{field} Nome {required}")

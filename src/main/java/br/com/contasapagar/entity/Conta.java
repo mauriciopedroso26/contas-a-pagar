@@ -14,6 +14,9 @@ import java.time.LocalDate;
 @Getter
 @Setter
 @EqualsAndHashCode
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
 @ToString
 @Entity
 @Table(name = "TA_CONTA")
