@@ -14,6 +14,6 @@ public class TipoRegraCalculoEnumConverter implements AttributeConverter<TipoReg
 
     @Override
     public TipoRegraCalculoEnum convertToEntityAttribute(String name) {
-        return TipoRegraCalculoEnum.getValue(name);
+        return TipoRegraCalculoEnum.getNome(name);
     }
 }

@@ -9,6 +9,7 @@ import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import lombok.*;
 
 import javax.persistence.*;
+import java.io.Serializable;
 import java.time.LocalDate;
 
 @Getter
@@ -20,7 +21,9 @@ import java.time.LocalDate;
 @ToString
 @Entity
 @Table(name = "TA_CONTA")
-public class Conta {
+public class Conta implements Serializable {
+
+    private static final long serialVersionUID = -8304718941711278126L;
 
     @Id
     @GeneratedValue

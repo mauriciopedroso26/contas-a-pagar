@@ -1,44 +1,81 @@
 package br.com.contasapagar.enums;
 
+import br.com.contasapagar.entity.Conta;
+import br.com.contasapagar.strategy.Multa;
+
+import java.text.DecimalFormat;
+import java.text.DecimalFormatSymbols;
 import java.util.stream.Stream;
 
-public enum TipoRegraCalculoEnum {
+public enum TipoRegraCalculoEnum implements
+        Multa {
 
-    ATE_3_DIAS(1, "Até 3 dias", 1.02, 1.001),
-    SUPERIOR_A_3_DIAS(2, "Superior a 3 dias", 1.03, 1.002),
-    SUPERIOR_A_5_DIAS(3, "Superior a 5 dias", 1.05, 1.003),
-    NAO_ESTA_EM_ATRASO(4, "Não está em atraso", null, null);
+    ATE_3_DIAS{
+        @Override
+        public Conta calculaMulta(Conta conta, long diasEmAtraso) {
+            conta.setValorCorrigido(conta.getValorOriginal() * 1.02);
 
-    private final Integer code;
-    private final String descricao;
-    private final Double multa;
-    private final Double jurosDia;
+            for (int i = 1; i <= diasEmAtraso; i++) {
+                conta.setValorCorrigido(Double.parseDouble(numberFormat(conta.getValorCorrigido() * 1.001)));
+            }
 
-    TipoRegraCalculoEnum(Integer code, String descricao, Double multa, Double jurosDia) {
-        this.descricao = descricao;
-        this.code = code;
-        this.multa = multa;
-        this.jurosDia = jurosDia;
-    }
+            conta.setQuantidadeDiasAtraso(diasEmAtraso);
+            conta.setTipoRegraCalculo(ATE_3_DIAS);
 
-    public Integer getCode() {
-        return code;
-    }
+            return conta;
+        }
+    },
+    SUPERIOR_A_3_DIAS{
+        @Override
+        public Conta calculaMulta(Conta conta, long diasEmAtraso) {
+            conta.setValorCorrigido(conta.getValorOriginal() * 1.03);
 
-    public String getDescricao() {
-        return this.descricao;
-    }
+            for (int i = 1; i <= diasEmAtraso; i++) {
+                conta.setValorCorrigido(Double.parseDouble(numberFormat(conta.getValorCorrigido() * 1.002)));
+            }
 
-    public Double getMulta() {
-        return multa;
-    }
+            conta.setQuantidadeDiasAtraso(diasEmAtraso);
+            conta.setTipoRegraCalculo(SUPERIOR_A_3_DIAS);
 
-    public Double getJurosDia() {
-        return jurosDia;
-    }
+            return conta;
+        }
+    },
+    SUPERIOR_A_5_DIAS{
+        @Override
+        public Conta calculaMulta(Conta conta, long diasEmAtraso) {
+            conta.setValorCorrigido(conta.getValorOriginal() * 1.05);
 
-    public static TipoRegraCalculoEnum getValue(String name) {
+            for (int i = 1; i <= diasEmAtraso; i++) {
+                conta.setValorCorrigido(Double.parseDouble(numberFormat(conta.getValorCorrigido() * 1.003)));
+            }
+
+            conta.setQuantidadeDiasAtraso(diasEmAtraso);
+            conta.setTipoRegraCalculo(SUPERIOR_A_5_DIAS);
+
+            return conta;
+        }
+    },
+    NAO_ESTA_EM_ATRASO() {
+        @Override
+        public Conta calculaMulta(Conta conta, long diasEmAtraso) {
+            conta.setQuantidadeDiasAtraso(0);
+            conta.setValorCorrigido(0.0);
+            conta.setTipoRegraCalculo(NAO_ESTA_EM_ATRASO);
+
+            return conta;
+        }
+    };
+
+
+    public static TipoRegraCalculoEnum getNome(String name) {
         return Stream.of(values()).filter(e -> name.equals(e.name())).findFirst().orElseThrow(() ->
                 new IllegalArgumentException("Nome não existe no TipoRegraCalculoEnum: nome=" + name));
+    }
+
+    public String numberFormat(double valor) {
+        DecimalFormatSymbols dfs = new DecimalFormatSymbols();
+        dfs.setDecimalSeparator('.');
+        DecimalFormat df = new DecimalFormat("0.00", dfs);
+        return df.format(valor);
     }
 }
